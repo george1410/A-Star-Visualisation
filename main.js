@@ -21,6 +21,8 @@ for (let i = 0; i < nodes.length; i++) {
         nodes[i][j] = new Node(i, j);
     }
 }
+var startNode = null;
+var endNode = null;
 
 // create the canvas element and add it to the page.
 const canvas = document.createElement('canvas');
@@ -37,9 +39,25 @@ canvas.addEventListener('mousedown', (e) => {
 
     var node = getNode(xPos, yPos);
     if (sDown) {
+        if (!node.start) {
+            if (startNode != null) {
+                startNode.start = false;
+            }
+            startNode = node;
+        } else {
+            startNode = null;
+        }
         node.obstacle = node.end = false;
         node.start = !node.start;
     } else if (eDown) {
+        if (!node.end) {
+            if (endNode != null) {
+                endNode.end = false;
+            }
+            endNode = node;
+        } else {
+            endNode = null;
+        }
         node.obstacle = node.start = false;
         node.end = !node.end;
     } else {
