@@ -2,7 +2,24 @@ const canvas = document.createElement('canvas');
 const margin = 10;
 const cellSize = 50;
 const gridSize = 10;
-const nodes = [gridSize];
+
+class Node {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.obstacle = false;
+        this.start = false;
+        this.end = false;
+    }
+}
+
+const nodes = Array(gridSize);
+for (let i = 0; i < nodes.length; i++) {
+    nodes[i] = Array(gridSize);
+    for (let j = 0; j < nodes[i].length; j++) {
+        nodes[i][j] = new Node(i, j);
+    }
+}
 
 canvas.width = canvas.height = margin * 2 + cellSize * gridSize;
 document.body.appendChild(canvas);
@@ -22,10 +39,10 @@ canvas.addEventListener('mousedown', (e) => {
     var xPos = e.clientX;
     var yPos = e.clientY;
 
-    getCell(xPos, yPos);    
+    console.log(getNode(xPos, yPos));
 });
 
-function getCell (xPos, yPos) {
+function getNode (xPos, yPos) {
     xPos -= margin;
     yPos -= margin;
     
@@ -33,4 +50,9 @@ function getCell (xPos, yPos) {
     yCoord = Math.floor(yPos/cellSize);
 
     console.log(`xCoord = ${xCoord}, yCoord = ${yCoord}`);
+    if (xCoord < 0 || yCoord < 0 || xCoord >= gridSize || yCoord >= gridSize) {
+        return null;
+    } else {
+        return nodes[xCoord][yCoord];
+    }
 }
