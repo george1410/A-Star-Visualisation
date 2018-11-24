@@ -30,6 +30,7 @@ canvas.width = canvas.height = margin * 2 + cellSize * gridSize;
 document.body.appendChild(canvas);
 const ctx = canvas.getContext('2d');
 
+// initial draw of the UI.
 draw();
 
 // wait for a mouseclick.
@@ -38,6 +39,13 @@ canvas.addEventListener('mousedown', (e) => {
     var yPos = e.clientY;
 
     var node = getNode(xPos, yPos);
+    if (node == null) {
+        return;
+    }
+
+    // if holding 's', toggle the clicked Node as the start node
+    // else if holding 'e' toggle the clicked Node as the end node
+    // otherwise toggle the clicked Node as an obstacle.
     if (sDown) {
         if (!node.start) {
             if (startNode != null) {
@@ -65,6 +73,8 @@ canvas.addEventListener('mousedown', (e) => {
         node.obstacle = !node.obstacle;
     }
     console.log(node);
+
+    //redraw the UI after any updates.
     draw();
 });
 
