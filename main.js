@@ -27,8 +27,30 @@ var endNode = null;
 // create the canvas element and add it to the page.
 const canvas = document.createElement('canvas');
 canvas.width = canvas.height = margin * 2 + cellSize * gridSize;
+canvas.style = 'display: block';
 document.body.appendChild(canvas);
 const ctx = canvas.getContext('2d');
+
+// create a button and add it to the page.
+const button = document.createElement('button');
+button.textContent = 'Find Path!';
+document.body.appendChild(button);
+button.addEventListener('click', (e) => {
+    if (isValid()) {
+        //findPath();
+        console.log("valid!");
+    }
+});
+
+// build error messages.
+const startError = document.createElement('p');
+startError.textContent = 'You need to set a start position! (Hold S and click)';
+document.body.appendChild(startError);
+startError.hidden = true;
+const endError = document.createElement('p');
+endError.textContent = 'You need to set an end position! (Hold E and click)';
+document.body.appendChild(endError);
+endError.hidden = true;
 
 // initial draw of the UI.
 draw();
@@ -146,4 +168,22 @@ function draw() {
             }
         }
     }
+}
+
+// checks whether the setup is valid (i.e. start and end are set)
+function isValid() {
+    var valid = true;
+    if (startNode == null) {
+        valid = false;
+        startError.hidden = false;
+    } else {
+        startError.hidden = true;
+    }
+    if (endNode == null) {
+        valid = false;
+        endError.hidden = false;
+    } else {
+        endError.hidden = true;
+    }
+    return valid;
 }
